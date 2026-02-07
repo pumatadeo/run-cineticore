@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --run-blue: #001F3F;
+  --run-gold: #D4AF37;
+  --run-white: #FFFFFF;
+  --run-silver: #C0C0C0;
+  --run-red: #FF0000;
+  --run-orange: #FF8C00;
+  --run-pink: #FF1493;
+}
+
+body {
+  @apply bg-run-white text-run-blue;
+}
+
+.sporty-gradient {
+  background: linear-gradient(135deg, var(--run-blue) 0%, #003366 100%);
+}
+
+.gold-text-glow {
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+.card-hover {
+  @apply transition-all duration-300 hover:scale-[1.02] hover:shadow-xl;
+}
