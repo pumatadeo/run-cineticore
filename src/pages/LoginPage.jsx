@@ -9,13 +9,13 @@ const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const { login } = useAuth();
+    const { login, register } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setError('');
-        const result = login(email, password);
+        const result = isLogin ? login(email, password) : register(email, password);
         if (result.success) {
             if (result.isAdmin) {
                 navigate('/admin');
@@ -23,7 +23,7 @@ const LoginPage = () => {
                 navigate('/');
             }
         } else {
-            setError('Credenciales invalidas');
+            setError(result.message || 'Error de autenticación');
         }
     };
 

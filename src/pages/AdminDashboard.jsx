@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Users, MessageSquare, Trash2, Edit, Activity, Mail } from 'lucide-react';
+import { Users, MessageSquare, Trash2, Edit, Activity, BookOpen } from 'lucide-react';
 
 const AdminDashboard = () => {
     const { user, logout } = useAuth();
     const [activeTab, setActiveTab] = useState('forum');
+    const [accessLogs, setAccessLogs] = useState([]);
 
-    // Mock data
-    const newsletterSubscribers = [
-        { id: 1, email: 'alejandro@example.com', date: '2026-02-01' },
-        { id: 2, email: 'runner22@gmail.com', date: '2026-02-03' },
-        { id: 3, email: 'marathon_fan@outlook.com', date: '2026-02-05' },
-    ];
+    useEffect(() => {
+        const logs = JSON.parse(localStorage.getItem('rc_access_logs') || '[]');
+        setAccessLogs(logs);
+    }, []);
 
     const forumPosts = [
         { id: 1, author: 'KipchogeFan', category: 'Crónicas', title: 'Sub 3 en CDMX', status: 'Approved' },
@@ -46,10 +45,10 @@ const AdminDashboard = () => {
                         <MessageSquare size={18} /> GESTIÓN FORO
                     </button>
                     <button
-                        onClick={() => setActiveTab('newsletter')}
-                        className={`w-full text-left px-6 py-4 rounded-xl font-bold flex items-center gap-3 transition-all ${activeTab === 'newsletter' ? 'bg-run-blue text-run-white shadow-xl scale-[1.05]' : 'bg-run-silver/10 text-run-blue/60 hover:bg-run-silver/20'}`}
+                        onClick={() => setActiveTab('accessLogs')}
+                        className={`w-full text-left px-6 py-4 rounded-xl font-bold flex items-center gap-3 transition-all ${activeTab === 'accessLogs' ? 'bg-run-blue text-run-white shadow-xl scale-[1.05]' : 'bg-run-silver/10 text-run-blue/60 hover:bg-run-silver/20'}`}
                     >
-                        <Mail size={18} /> NEWSLETTER
+                        <BookOpen size={18} /> REGISTRO ACCESOS
                     </button>
                 </div>
 
@@ -94,25 +93,28 @@ const AdminDashboard = () => {
                     ) : (
                         <div className="bg-run-white border border-run-silver/20 rounded-3xl overflow-hidden shadow-2xl">
                             <div className="p-6 border-b border-run-silver/10 flex justify-between items-center bg-run-blue text-run-white">
-                                <h3 className="font-black italic text-xl">LISTA NEWSLETTER</h3>
-                                <Mail size={20} className="text-run-gold" />
+                                <h3 className="font-black italic text-xl">REGISTRO DE CONEXIONES</h3>
+                                <BookOpen size={20} className="text-run-gold" />
                             </div>
                             <table className="w-full text-left">
                                 <thead className="bg-run-silver/10 text-run-blue text-xs uppercase tracking-widest font-black">
                                     <tr>
-                                        <th className="p-6">ID</th>
-                                        <th className="p-6">Email Correo</th>
-                                        <th className="p-6">Fecha Registro</th>
+                                        <th className="p-6">Usuario (Email)</th>
+                                        <th className="p-6">Fecha y Hora de Acceso</th>
                                     </tr>
                                 </thead>
                                 <tbody className="text-sm divide-y divide-run-silver/10">
-                                    {newsletterSubscribers.map(sub => (
-                                        <tr key={sub.id} className="hover:bg-run-silver/5">
-                                            <td className="p-6 font-bold">{sub.id}</td>
-                                            <td className="p-6">{sub.email}</td>
-                                            <td className="p-6 text-run-silver font-bold uppercase">{sub.date}</td>
+                                    {accessLogs.map(log => (
+                                        <tr key={log.id} className="hover:bg-run-silver/5">
+                                            <td className="p-6 font-bold text-run-blue">{log.email}</td>
+                                            <td className="p-6 text-run-silver font-bold uppercase">{log.date}</td>
                                         </tr>
                                     ))}
+                                    {accessLogs.length === 0 && (
+                                        <tr>
+                                            <td colSpan="2" className="p-6 text-center text-run-silver font-bold">Sin registros recientes</td>
+                                        </tr>
+                                    )}
                                 </tbody>
                             </table>
                         </div>

@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import Parser from 'rss-parser';
 
 // To simulate __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -25,35 +26,45 @@ function getRandomImage() {
 }
 
 async function fetchRunningNews() {
-    console.log("Iniciando búsqueda de noticias semanales...");
+    console.log("Iniciando búsqueda de noticias semanales (Google News RSS)...");
     
     try {
-        // Fetch top posts from /r/running for the week (no auth required)
-        const response = await fetch('https://www.reddit.com/r/running/top.json?limit=5&t=week', {
-            headers: {
-                'User-Agent': 'RunningNewsBot/1.0.0 (Node.js)'
+        const parser = new Parser({
+            customFields: {
+                item: ['description']
             }
         });
+        
+        // Google News RSS query for marathons in Mexico or World Marathon Majors
+        const feedUrl = 'https://news.google.com/rss/search?q=maraton+mexico+OR+marathon+majors+when:7d&hl=es-419&gl=MX&ceid=MX:es-419';
+        
+        const feed = await parser.parseURL(feedUrl);
 
-        if (!response.ok) {
-            throw new Error(`Error en Reddit API: ${response.status}`);
+        if (!feed.items || feed.items.length === 0) {
+            throw new Error("No hay noticias en el feed RSS.");
         }
 
-        const data = await response.json();
-        const posts = data.data.children;
-
         const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-        const todayStr = new Date().toLocaleDateString('es-ES', dateOptions);
 
-        const news = posts.slice(0, 3).map(post => {
-            const item = post.data;
+        // Process top 3 news items
+        const news = feed.items.slice(0, 3).map(item => {
+            const pubDate = new Date(item.pubDate);
+            const dateStr = isNaN(pubDate) ? new Date().toLocaleDateString('es-ES', dateOptions) : pubDate.toLocaleDateString('es-ES', dateOptions);
+            
+            // Clean up description (Google News RSS includes HTML tags like <a>)
+            let cleanDesc = item.contentSnippet || item.description || 'Noticia destacada en el mundo del running.';
+            cleanDesc = cleanDesc.replace(/<[^>]*>?/gm, ''); // Remove basic html
+            if (cleanDesc.length > 150) {
+                cleanDesc = cleanDesc.substring(0, 147) + '...';
+            }
+
             return {
-                id: item.id,
+                id: item.guid || item.link,
                 title: item.title,
-                date: todayStr,
-                // Taking a snippet of the selftext for description
-                description: item.selftext ? item.selftext.substring(0, 120) + '...' : 'Revisa los detalles de esta noticia destacada en la comunidad del running actual.',
-                image: getRandomImage()
+                date: dateStr,
+                description: cleanDesc,
+                image: getRandomImage(),
+                url: item.link
             };
         });
 
@@ -65,33 +76,36 @@ async function fetchRunningNews() {
         // Save to public/news.json
         fs.writeFileSync(NEWS_FILE, JSON.stringify(news, null, 2));
         console.log(`✅ Noticias actualizadas exitosamente en ${NEWS_FILE}`);
-        console.log(`🗞️ Se han guardado ${news.length} noticias.`);
+        console.log(`🗞️ Se han guardado ${news.length} noticias reales (Con Insights y Links).`);
 
     } catch (error) {
-        console.error("❌ Ocurrió un error al buscar las noticias:", error.message);
+        console.error("❌ Ocurrió un error al buscar las noticias RSS:", error.message);
         
-        // Fallback data in case of no internet or API rate limits
+        // Fallback data in case of error
         const fallbackNews = [
             {
                 id: "fb1",
                 title: "Maratón Lala 2026: Preparativos Finales",
                 date: new Date().toLocaleDateString('es-ES'),
                 description: "La fiesta lagunera se prepara para recibir a miles de corredores en Torreón. ¿Estás listo para correr rápido?",
-                image: getRandomImage()
+                image: getRandomImage(),
+                url: "https://maratonlala.org/"
             },
             {
                 id: "fb2",
                 title: "Nuevas zapatillas de placa de carbono revolucionan el mercado",
                 date: new Date().toLocaleDateString('es-ES'),
                 description: "Las marcas siguen empujando los límites de la tecnología. Análisis de los modelos más usados este fin de semana.",
-                image: getRandomImage()
+                image: getRandomImage(),
+                url: "https://www.runnersworld.com/"
             },
             {
                 id: "fb3",
                 title: "Nutrición en carrera: El debate de los geles",
                 date: new Date().toLocaleDateString('es-ES'),
                 description: "Expertos discuten la cantidad ideal de carbohidratos por hora para pruebas de larga distancia.",
-                image: getRandomImage()
+                image: getRandomImage(),
+                url: "https://www.soymaratonista.com/"
             }
         ];
         fs.writeFileSync(NEWS_FILE, JSON.stringify(fallbackNews, null, 2));

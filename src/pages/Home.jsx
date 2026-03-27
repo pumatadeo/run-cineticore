@@ -2,21 +2,21 @@ import React, { useState, useEffect } from 'react';
 import Hero from '../components/Hero';
 import { TrendingUp, Hash, Award, Clock } from 'lucide-react';
 
-const NewsCard = ({ date, title, description, image }) => (
+const NewsCard = ({ date, title, description, image, url }) => (
     <div className="bg-run-blue/5 border border-run-silver/20 rounded-xl p-4 card-hover overflow-hidden">
         <div className="h-40 rounded-lg mb-4 overflow-hidden relative">
             <img src={image} alt={title} className="w-full h-full object-cover" />
             <div className="absolute top-2 right-2 bg-run-gold text-run-blue text-[10px] font-bold px-2 py-1 rounded">
-                PROXIMAMENTE
+                NUEVO
             </div>
         </div>
         <div className="flex items-center gap-2 text-run-pink text-xs font-bold mb-2">
             <Clock size={12} />
             <span>{date}</span>
         </div>
-        <h3 className="text-lg font-bold mb-2 text-run-blue">{title}</h3>
-        <p className="text-sm text-run-blue/70 mb-4">{description}</p>
-        <button className="text-run-red font-bold text-xs uppercase tracking-widest hover:underline">Leer más →</button>
+        <h3 className="text-lg font-bold mb-2 text-run-blue line-clamp-2">{title}</h3>
+        <p className="text-sm text-run-blue/70 mb-4 line-clamp-3">{description}</p>
+        <a href={url || "#"} target="_blank" rel="noopener noreferrer" className="text-run-red font-bold text-xs uppercase tracking-widest hover:underline inline-block">Ver Artículo Completo →</a>
     </div>
 );
 
@@ -97,6 +97,17 @@ const Home = () => {
     const [news, setNews] = useState([]);
     const [loadingNews, setLoadingNews] = useState(true);
 
+    const dailyWorkouts = {
+        0: 'DOMINGO - Descanso activo o trote muy suave 30m.',
+        1: 'LUNES - Recovery: Trote E-pace 45m para recuperar las piernas.',
+        2: 'MARTES - Series: 8x400m a ritmo de 5k con 1m recuperación.',
+        3: 'MIÉRCOLES - Distancia E-pace 60m para sumar volumen metabólico.',
+        4: 'JUEVES - Tempo Run: 20m Calent. + 30m T-pace + 10m Calma.',
+        5: 'VIERNES - Descanso total o Cross-Training ligero.',
+        6: 'SÁBADO - Long Run: 90m a 120m ritmo E-pace continuo.'
+    };
+    const todayWorkout = dailyWorkouts[new Date().getDay()];
+
     useEffect(() => {
         const fetchNews = async () => {
             try {
@@ -147,6 +158,7 @@ const Home = () => {
                                         title={item.title}
                                         description={item.description}
                                         image={item.image}
+                                        url={item.url}
                                     />
                                 ))}
                             </div>
@@ -166,32 +178,32 @@ const Home = () => {
                             </h3>
                             <ul className="space-y-4">
                                 <li className="flex flex-col">
-                                    <span className="flex items-center gap-1 text-run-pink text-xs font-bold uppercase tracking-widest leading-none">
+                                    <a href="https://www.instagram.com/explore/tags/corredoresmx/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-run-pink text-xs font-bold uppercase tracking-widest leading-none hover:underline">
                                         <Hash size={12} /> CorredoresMX
-                                    </span>
-                                    <span className="text-sm font-medium">8.4k posts hoy</span>
+                                    </a>
+                                    <span className="text-sm font-medium">Trending hoy</span>
                                 </li>
                                 <li className="flex flex-col">
-                                    <span className="flex items-center gap-1 text-run-pink text-xs font-bold uppercase tracking-widest leading-none">
+                                    <a href="https://www.instagram.com/explore/tags/worldmarathonmajors/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-run-pink text-xs font-bold uppercase tracking-widest leading-none hover:underline">
                                         <Hash size={12} /> WorldMarathonMajors
-                                    </span>
-                                    <span className="text-sm font-medium">12.1k posts hoy</span>
+                                    </a>
+                                    <span className="text-sm font-medium">Trending hoy</span>
                                 </li>
                                 <li className="flex flex-col">
-                                    <span className="flex items-center gap-1 text-run-pink text-xs font-bold uppercase tracking-widest leading-none">
+                                    <a href="https://www.instagram.com/explore/tags/runningtech/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-run-pink text-xs font-bold uppercase tracking-widest leading-none hover:underline">
                                         <Hash size={12} /> RunningTech
-                                    </span>
-                                    <span className="text-sm font-medium">5.2k posts hoy</span>
+                                    </a>
+                                    <span className="text-sm font-medium">Trending hoy</span>
                                 </li>
                             </ul>
                         </div>
 
                         <div className="bg-run-gold/10 border-2 border-run-gold/30 p-6 rounded-2xl">
                             <h3 className="text-run-blue text-xl font-black italic flex items-center gap-2 mb-4">
-                                <Award size={24} /> ENTRENAMIENTO
+                                <Award size={24} /> ENTRENAMIENTO DEL DÍA
                             </h3>
-                            <p className="text-sm text-run-blue/80 mb-4">
-                                La técnica de cadencia ideal es de <strong className="text-run-red">180 pasos/min</strong>. Mantenerla mejora la eficiencia y reduce el impacto.
+                            <p className="text-sm text-run-blue/80 font-bold mb-4">
+                                {todayWorkout}
                             </p>
                             <div className="w-full h-1 bg-run-silver/20 rounded-full overflow-hidden">
                                 <div className="h-full bg-run-red w-3/4 animate-pulse"></div>
