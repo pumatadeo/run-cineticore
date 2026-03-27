@@ -1,0 +1,66 @@
+{
+  "name": "Weekly Race Summary API",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "weekly-info",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        200,
+        300
+      ],
+      "webhookId": "weekly-info-webhook"
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "week",
+              "value": "Semana del 20 al 26 de Marzo"
+            },
+            {
+              "name": "comments",
+              "value": "Esta semana tuvimos la emocionante preparación para el Maratón Lala. A los corredores de la CDMX, recuerden que pronto abren las inscripciones para el Medio Maratón. ¡Sigan entrenando fuerte!"
+            },
+            {
+              "name": "featuredRace",
+              "value": "Maratón Lala 2026"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2a3b4c5d-6e7f-8g9h-0i1j-2k3l4m5n6o7p",
+      "name": "Set Summary Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        420,
+        300
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Set Summary Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {}
+}
