@@ -111,7 +111,8 @@ const Home = () => {
     useEffect(() => {
         const fetchNews = async () => {
             try {
-                const response = await fetch('/news.json');
+                const url = import.meta.env.BASE_URL + 'news.json';
+                const response = await fetch(url);
                 if (!response.ok) throw new Error("Could not fetch news.json");
                 const data = await response.json();
                 setNews(data);

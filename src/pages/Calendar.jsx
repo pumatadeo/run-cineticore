@@ -42,7 +42,8 @@ const Calendar = () => {
     const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
-        fetch('/calendar-events.json')
+        const url = import.meta.env.BASE_URL + 'calendar-events.json';
+        fetch(url)
             .then(res => res.json())
             .then(data => {
                 setEvents(data);

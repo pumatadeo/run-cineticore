@@ -9,7 +9,8 @@ const ArticlesArchive = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch('/science-articles.json')
+        const url = import.meta.env.BASE_URL + 'science-articles.json';
+        fetch(url)
             .then(res => res.json())
             .then(data => {
                 setArticles(data);
