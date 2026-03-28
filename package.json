@@ -8,7 +8,9 @@
         "build": "vite build",
         "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
         "preview": "vite preview",
-        "generate-news": "node scripts/fetch-news.js"
+        "generate-news": "node scripts/fetch-news.js",
+        "generate-science": "node scripts/fetch-science.js",
+        "generate-calendar": "node scripts/fetch-calendar.js"
     },
     "dependencies": {
         "clsx": "^2.1.0",

@@ -13,9 +13,13 @@ const Forum = () => {
             category: "Consultas Técnicas",
             content: "¿Alguien ha notado que el ritmo E se siente demasiado lento al inicio del ciclo? Jack Daniels sugiere que es vital para la economía de carrera.",
             likes: 24,
-            replies: 8,
+            replies: 1,
             isVerified: true,
-            imageUrl: null
+            imageUrl: null,
+            userLiked: false,
+            comments: [
+                { id: 101, text: "Totalmente de acuerdo, la paciencia en el ritmo E es la clave para evitar lesiones.", author: "CoachPerez", date: "Hace 2h" }
+            ]
         },
         {
             id: 2,
@@ -24,9 +28,11 @@ const Forum = () => {
             category: "Crónicas de Carrera",
             content: "La humedad estuvo pesada pero las placas de carbono realmente ayudaron en los últimos 5km. ¡Logré el BQ!",
             likes: 56,
-            replies: 12,
+            replies: 0,
             isVerified: false,
-            imageUrl: null
+            imageUrl: null,
+            userLiked: true,
+            comments: []
         },
         {
             id: 3,
@@ -35,14 +41,21 @@ const Forum = () => {
             category: "Experiencias",
             content: "Para mis 70kg, consumo 700g de HC 48 horas antes. El arroz y la avena son mis mejores aliados.",
             likes: 42,
-            replies: 15,
+            replies: 2,
             isVerified: true,
-            imageUrl: null
+            imageUrl: null,
+            userLiked: false,
+            comments: [
+                { id: 102, text: "¿Notas digestión pesada con esa cantidad de avena?", author: "Beginner_10k", date: "Hace 5h" },
+                { id: 103, text: "No si la cocino bien y la licuo en smoothies.", author: "NutriElite", date: "Hace 1h" }
+            ]
         }
     ];
 
     const [posts, setPosts] = useState(initialPosts);
     const [showForm, setShowForm] = useState(false);
+    const [expandedPostId, setExpandedPostId] = useState(null);
+    const [newComment, setNewComment] = useState('');
     
     // New Post State
     const [newTitle, setNewTitle] = useState('');
@@ -61,6 +74,44 @@ const Forum = () => {
         }
     };
 
+    const handleLike = (id) => {
+        setPosts(posts.map(post => {
+            if (post.id === id) {
+                return {
+                    ...post,
+                    likes: post.userLiked ? post.likes - 1 : post.likes + 1,
+                    userLiked: !post.userLiked
+                };
+            }
+            return post;
+        }));
+    };
+
+    const handleCommentSubmit = (e, postId) => {
+        e.preventDefault();
+        if (!newComment.trim()) return;
+
+        setPosts(posts.map(post => {
+            if (post.id === postId) {
+                return {
+                    ...post,
+                    replies: post.replies + 1,
+                    comments: [
+                        {
+                            id: Date.now(),
+                            text: newComment,
+                            author: "UsuarioActual", // Simulado
+                            date: "Justo ahora"
+                        },
+                        ...post.comments
+                    ]
+                };
+            }
+            return post;
+        }));
+        setNewComment('');
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!newTitle || !newContent) return;
@@ -74,7 +125,9 @@ const Forum = () => {
             likes: 0,
             replies: 0,
             isVerified: false,
-            imageUrl: newImage
+            imageUrl: newImage,
+            userLiked: false,
+            comments: []
         };
 
         setPosts([newPost, ...posts]);
@@ -235,16 +288,60 @@ const Forum = () => {
                         <p className="text-run-blue/70 mb-8 whitespace-pre-wrap">{post.content}</p>
                         
                         <div className="flex items-center gap-8 text-run-silver font-black text-xs uppercase tracking-widest">
-                            <button className="flex items-center gap-2 hover:text-run-red transition-colors">
-                                <HeartLucide size={18} /> {post.likes}
+                            <button 
+                                onClick={() => handleLike(post.id)}
+                                className={`flex items-center gap-2 transition-colors ${post.userLiked ? 'text-run-red' : 'hover:text-run-red'}`}
+                            >
+                                <HeartLucide size={18} fill={post.userLiked ? "currentColor" : "none"} /> {post.likes}
                             </button>
-                            <button className="flex items-center gap-2 hover:text-run-blue transition-colors">
+                            <button 
+                                onClick={() => setExpandedPostId(expandedPostId === post.id ? null : post.id)}
+                                className={`flex items-center gap-2 transition-colors ${expandedPostId === post.id ? 'text-run-blue' : 'hover:text-run-blue'}`}
+                            >
                                 <MessageCircle size={18} /> {post.replies} RESPUESTAS
                             </button>
                             <button className="flex items-center gap-2 ml-auto hover:text-run-blue transition-colors">
                                 <Share2 size={18} /> COMPARTIR
                             </button>
                         </div>
+
+                        {/* Comments Section */}
+                        {expandedPostId === post.id && (
+                            <div className="mt-8 pt-8 border-t border-run-silver/10 animate-in fade-in slide-in-from-top-4">
+                                <h4 className="text-xs font-black uppercase tracking-widest text-run-blue mb-4">Comentarios</h4>
+                                
+                                <div className="space-y-4 mb-6">
+                                    {post.comments.map(c => (
+                                        <div key={c.id} className="bg-run-silver/5 p-4 rounded-xl">
+                                            <div className="flex justify-between items-center mb-2">
+                                                <span className="font-bold text-run-blue text-xs uppercase">{c.author}</span>
+                                                <span className="text-[10px] text-run-silver font-bold uppercase">{c.date}</span>
+                                            </div>
+                                            <p className="text-sm text-run-blue/80">{c.text}</p>
+                                        </div>
+                                    ))}
+                                    {post.comments.length === 0 && (
+                                        <p className="text-xs font-medium text-run-silver italic">Aún no hay respuestas. ¡Sé el primero!</p>
+                                    )}
+                                </div>
+
+                                <form onSubmit={(e) => handleCommentSubmit(e, post.id)} className="flex gap-2">
+                                    <input 
+                                        type="text" 
+                                        value={newComment}
+                                        onChange={(e) => setNewComment(e.target.value)}
+                                        placeholder="Añadir una respuesta..."
+                                        className="flex-1 bg-run-white border-2 border-run-silver/20 rounded-lg p-3 text-sm outline-none focus:border-run-blue transition-colors"
+                                    />
+                                    <button 
+                                        type="submit"
+                                        className="bg-run-blue text-run-white px-6 rounded-lg font-bold text-xs uppercase tracking-widest hover:bg-run-gold transition-colors"
+                                    >
+                                        Enviar
+                                    </button>
+                                </form>
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "Qm9zdG9uIE1hcmF0aG9uMjAyNg==",
+    "title": "Boston Marathon",
+    "location": "Boston, USA",
+    "type": "WMM",
+    "isKey": false,
+    "link": "https://www.baa.org/races/boston-marathon",
+    "date": "2026-04-20T06:00:00.000Z"
+  },
+  {
+    "id": "TG9uZG9uIE1hcmF0aG9uMjAyNg==",
+    "title": "London Marathon",
+    "location": "London, UK",
+    "type": "WMM",
+    "isKey": false,
+    "link": "https://www.tcslondonmarathon.com/",
+    "date": "2026-04-27T06:00:00.000Z"
+  },
+  {
+    "id": "TWVkaW8gTWFyYXTDs24gQ0RNWDIwMjY=",
+    "title": "Medio Maratón CDMX",
+    "location": "Ciudad de México",
+    "type": "21.097K",
+    "isKey": true,
+    "link": "https://21k.cdmx.gob.mx/",
+    "date": "2026-07-12T06:00:00.000Z"
+  },
+  {
+    "id": "TWFyYXTDs24gQ0RNWDIwMjY=",
+    "title": "Maratón CDMX",
+    "location": "Ciudad de México",
+    "type": "42.195K",
+    "isKey": true,
+    "link": "https://maraton.cdmx.gob.mx/",
+    "date": "2026-08-30T06:00:00.000Z"
+  },
+  {
+    "id": "QmVybGluIE1hcmF0aG9uMjAyNg==",
+    "title": "Berlin Marathon",
+    "location": "Berlin, GER",
+    "type": "WMM",
+    "isKey": false,
+    "link": "https://www.bmw-berlin-marathon.com/en/",
+    "date": "2026-09-27T06:00:00.000Z"
+  },
+  {
+    "id": "Q2hpY2FnbyBNYXJhdGhvbjIwMjY=",
+    "title": "Chicago Marathon",
+    "location": "Chicago, USA",
+    "type": "WMM",
+    "isKey": false,
+    "link": "https://www.chicagomarathon.com/",
+    "date": "2026-10-13T06:00:00.000Z"
+  },
+  {
+    "id": "TWFyYXTDs24gTW9udGVycmV5MjAyNg==",
+    "title": "Maratón Monterrey",
+    "location": "Monterrey, NL",
+    "type": "42.195K",
+    "isKey": true,
+    "link": "https://www.maratonmonterrey.mx/",
+    "date": "2026-12-13T06:00:00.000Z"
+  },
+  {
+    "id": "TWFyYXTDs24gTGFsYTIwMjc=",
+    "title": "Maratón Lala",
+    "location": "Torreón, Coahuila",
+    "type": "42.195K",
+    "isKey": true,
+    "link": "https://www.maratonlala.org/",
+    "date": "2027-03-01T06:00:00.000Z"
+  }
+]
