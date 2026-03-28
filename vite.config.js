@@ -11,7 +11,7 @@ export default defineConfig({
             registerType: 'autoUpdate',
             includeAssets: ['favicon.svg'],
             manifest: {
-                name: 'Run CinetiCore Hub',
+                name: 'RC Run Core Culture',
                 short_name: 'RC Hub',
                 description: 'Elite High-Performance Running Community Hub',
                 theme_color: '#001F3F',

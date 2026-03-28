@@ -21,7 +21,7 @@ const Footer = () => (
                     <div className="w-8 h-8 bg-run-gold rounded-full flex items-center justify-center">
                         <span className="text-run-blue font-black text-xs">RC</span>
                     </div>
-                    <h2 className="text-2xl font-black italic tracking-tighter">RUN CINETICORE <span className="text-run-gold">HUB</span></h2>
+                    <h2 className="text-2xl font-black italic tracking-tighter">RC RUN CORE <span className="text-run-gold">CULTURE</span></h2>
                 </div>
                 <p className="text-run-silver text-sm max-w-sm font-medium leading-relaxed">
                     La meta es solo el inicio. Somos una comunidad dedicada al running de alto rendimiento,
@@ -44,7 +44,7 @@ const Footer = () => (
             </div>
         </div>
         <div className="container mx-auto px-4 mt-16 pt-8 border-t border-run-silver/10 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-black uppercase tracking-[0.2em] text-run-silver/40">
-            <span>© 2026 Run Cineticore Hub - Alejandro Espinosa</span>
+            <span>© 2026 RC Run Core Culture - Alejandro Espinosa</span>
             <div className="flex gap-6">
                 <a href="#" className="hover:text-run-white transition-colors">Privacidad</a>
                 <a href="#" className="hover:text-run-white transition-colors">Términos</a>

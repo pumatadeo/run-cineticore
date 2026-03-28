@@ -26,7 +26,7 @@ const Navbar = () => {
                         <span className="text-run-blue font-black text-sm">RC</span>
                     </div>
                     <h1 className="text-2xl font-black italic tracking-tighter">
-                        RUN CINETICORE <span className="text-run-gold">HUB</span>
+                        RC RUN CORE <span className="text-run-gold">CULTURE</span>
                     </h1>
                 </Link>
 

@@ -353,7 +353,7 @@ const Forum = () => {
                     <ShieldCheck className="text-run-gold" /> MANUAL DE CONVIVENCIA
                 </h4>
                 <p className="text-sm text-run-silver leading-relaxed max-w-3xl">
-                    En Run CinetiCore Hub, la información es poder. Por ello, exigimos que toda recomendación técnica o de nutrición esté basada en evidencia científica o citada de fuentes de autoridad. El respeto por el proceso del otro es la base de nuestra comunidad de élite.
+                    En RC Run Core Culture, la información es poder. Por ello, exigimos que toda recomendación técnica o de nutrición esté basada en evidencia científica o citada de fuentes de autoridad. El respeto por el proceso del otro es la base de nuestra comunidad de élite.
                 </p>
             </div>
         </div>
