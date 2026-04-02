@@ -12,6 +12,7 @@ import Calendar from './pages/Calendar'
 import Store from './pages/Store'
 import LoginPage from './pages/LoginPage'
 import AdminDashboard from './pages/AdminDashboard'
+import Nutrition from './pages/Nutrition'
 
 const Footer = () => (
     <footer className="bg-run-blue text-run-white py-16 border-t border-run-gold/30">
@@ -35,6 +36,7 @@ const Footer = () => (
                     <li><a href="/forum" className="hover:text-run-white transition-colors">Comunidad</a></li>
                     <li><a href="/science" className="hover:text-run-white transition-colors">Ciencia</a></li>
                     <li><a href="/calendar" className="hover:text-run-white transition-colors">Calendario</a></li>
+                    <li><a href="/nutrition" className="hover:text-run-white transition-colors">Nutrición</a></li>
                 </ul>
             </div>
             <div>
@@ -67,6 +69,7 @@ const App = () => {
                             <Route path="/science/*" element={<Science />} />
                             <Route path="/calendar" element={<Calendar />} />
                             <Route path="/store" element={<Store />} />
+                            <Route path="/nutrition" element={<Nutrition />} />
                             <Route path="/login" element={<LoginPage />} />
 
                             {/* Protected Admin Routes */}

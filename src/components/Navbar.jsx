@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Home, MessageSquare, Microscope, Calendar, ShoppingBag, User, LogOut } from 'lucide-react';
+import { Menu, X, Home, MessageSquare, Microscope, Calendar, ShoppingBag, User, LogOut, Activity } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
@@ -14,6 +14,7 @@ const Navbar = () => {
         { to: '/science', label: 'Ciencia', icon: Microscope },
         { to: '/calendar', label: 'Calendario', icon: Calendar },
         { to: '/store', label: 'Tienda', icon: ShoppingBag },
+        { to: '/nutrition', label: 'Nutrición', icon: Activity },
     ];
 
     const isActive = (path) => location.pathname === path || (path !== '/' && location.pathname.startsWith(path));
@@ -33,13 +34,25 @@ const Navbar = () => {
                 {/* Desktop Nav */}
                 <div className="hidden lg:flex gap-8 items-center">
                     {navLinks.map((link) => (
-                        <Link
-                            key={link.to}
-                            to={link.to}
-                            className={`hover:text-run-gold transition-all flex items-center gap-1.5 font-bold uppercase text-xs tracking-widest ${isActive(link.to) ? 'text-run-gold border-b-2 border-run-gold' : 'text-run-silver/70'}`}
-                        >
-                            <link.icon size={16} /> {link.label}
-                        </Link>
+                        link.external ? (
+                            <a
+                                key={link.to}
+                                href={link.to}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:text-run-gold transition-all flex items-center gap-1.5 font-bold uppercase text-xs tracking-widest text-run-silver/70"
+                            >
+                                <link.icon size={16} /> {link.label}
+                            </a>
+                        ) : (
+                            <Link
+                                key={link.to}
+                                to={link.to}
+                                className={`hover:text-run-gold transition-all flex items-center gap-1.5 font-bold uppercase text-xs tracking-widest ${isActive(link.to) ? 'text-run-gold border-b-2 border-run-gold' : 'text-run-silver/70'}`}
+                            >
+                                <link.icon size={16} /> {link.label}
+                            </Link>
+                        )
                     ))}
 
                     {user ? (
@@ -73,14 +86,27 @@ const Navbar = () => {
             {isOpen && (
                 <div className="lg:hidden fixed inset-0 top-[73px] bg-run-blue/95 backdrop-blur-md z-40 p-8 flex flex-col gap-8 animate-in slide-in-from-top duration-300">
                     {navLinks.map((link) => (
-                        <Link
-                            key={link.to}
-                            to={link.to}
-                            onClick={() => setIsOpen(false)}
-                            className={`text-2xl font-black italic uppercase tracking-tighter ${isActive(link.to) ? 'text-run-gold' : 'text-run-white'}`}
-                        >
-                            {link.label}
-                        </Link>
+                        link.external ? (
+                            <a
+                                key={link.to}
+                                href={link.to}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={() => setIsOpen(false)}
+                                className="text-2xl font-black italic uppercase tracking-tighter text-run-white hover:text-run-gold transition-colors"
+                            >
+                                {link.label}
+                            </a>
+                        ) : (
+                            <Link
+                                key={link.to}
+                                to={link.to}
+                                onClick={() => setIsOpen(false)}
+                                className={`text-2xl font-black italic uppercase tracking-tighter ${isActive(link.to) ? 'text-run-gold' : 'text-run-white'}`}
+                            >
+                                {link.label}
+                            </Link>
+                        )
                     ))}
                     {!user && (
                         <Link
